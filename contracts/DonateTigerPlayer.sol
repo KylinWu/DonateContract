@@ -18,6 +18,10 @@ contract DonateTigerPlayer is Ownable, Destructible {
         minDonateThreshold = threshold;
     }
 
+    function balance() public view returns(uint) {
+        return address(this).balance;
+    }
+
     function donate() public payable {
         require(msg.value >= minDonateThreshold, "sender value lower than min of donate threshold");
         donator[msg.sender].currentValue = msg.value;
@@ -33,6 +37,9 @@ contract DonateTigerPlayer is Ownable, Destructible {
         require(address(this).balance > 0, "contract balance empty");
         uint payment = address(this).balance;
         address(owner).transfer(payment);
+    }
+
+    function () public payable {
     }
 
 }
