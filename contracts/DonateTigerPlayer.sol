@@ -22,10 +22,13 @@ contract DonateTigerPlayer is Ownable, Destructible {
         return address(this).balance;
     }
 
-    function donate() public payable {
+    event Donate(address indexed from, string key, uint time);
+
+    function donate(string key) public payable {
         require(msg.value >= minDonateThreshold, "sender value lower than min of donate threshold");
         donator[msg.sender].currentValue = msg.value;
         donator[msg.sender].totalValue += msg.value;
+        emit Donate(msg.sender, key, now);
     }
 
     function modifyDonateThreshold(uint _minDonateThreshold) public onlyOwner {
